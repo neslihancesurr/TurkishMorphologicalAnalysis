@@ -4,7 +4,7 @@ public class PronounTest {
     public static void main(String[] args) {
         FsmMorphologicalAnalyzer fsm = new FsmMorphologicalAnalyzer();
         //personal pronouns
-        //String[] word = {"ben", "biz", "sizler", "onlardaki", "benim"};
+        String[] word = {"ben", "biz", "sizler", "onlardaki", "benimdi"};
         //reciprocal
         //String[] word = {"birbirinize", "birbirlerini", "birbirini", "birbirinden", "birbirimizi", "birbirimizden"};
         //interrogatives
@@ -18,7 +18,7 @@ public class PronounTest {
         //"öbür", "öbüründen", "ötekinden", "öteki", "herkes", "herkesten", "kimi", "kimilerine", "biri", "birilerinden","birisini",
         //"hepsi", "hepsinde"};
        //String[] word = {"bu", "şu", "o", "bundan", "şuna", "ondan", "burada", "buradan", "şurada", "şuradan", "oradan", "orada", "oranınki"};
-        String[] word = {"üçüncü", "kaçıncı","beşinci", "yirminci"};
+        //String[] word = {"üçüncü", "kaçıncı","beşinci", "yirminci"};
 
         for (String s : word) {
             System.out.printf("Analysis for: " + s + "\n");
