@@ -1,5 +1,4 @@
-import MorphologicalAnalysis.MorphologicalParse;
-import MorphologicalAnalysis.MorphologicalTag;
+package MorphologicalAnalysis;
 
 public class NounTest {
     public static void main(String[] args) {
