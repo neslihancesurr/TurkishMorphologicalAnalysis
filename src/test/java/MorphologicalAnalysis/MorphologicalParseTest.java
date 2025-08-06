@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class MorphologicalParseTest {
-    MorphologicalParse parse1, parse2, parse3, parse4, parse5, parse6, parse7, parse8, parse9;
+    MorphologicalParse parse1, parse2, parse3, parse4, parse5, parse6, parse7, parse8, parse9,
+            parse10, parse11, parse12, parse13, parse14, parse15, parse16, parse17;
 
     @Before
     public void setUp(){
@@ -21,11 +22,22 @@ public class MorphologicalParseTest {
         parse7 = new MorphologicalParse("iyi+ADJ^DB+VERB+BECOME^DB+VERB+CAUS^DB+VERB+PASS+POS^DB+VERB+ABLE^DB+NOUN+INF2+A3PL+P3PL+ABL");
         parse8 = new MorphologicalParse("değil+ADJ^DB+VERB+ZERO+PAST+A3SG");
         parse9 = new MorphologicalParse("hazır+ADJ^DB+VERB+ZERO+PAST+A3SG");
+        parse10 = new MorphologicalParse("yaz+VERB+NEG^DB+ADJ+PASTPART+P2PL"); //yazmadığınız
+        parse11 = new MorphologicalParse("kır+VERB^DB+VERB+PASS^DB+VERB+PASS+POS+AOR+A3SG"); //kırılınır
+        parse12 = new MorphologicalParse("gel+VERB^DB+VERB+ABLE+NEG^DB+VERB+ABLE+AOR+A3SG"); //gelemeyebilir
     }
 
     @Test
     public void testUd(){
         ArrayList<String> list = new MorphologicalParse("getir+VERB+POS+NARR+PAST+A3SG").getUniversalDependencyFeatures("Int");
+    }
+
+    @Test
+    public void testCountTagOccurences(){
+        assertEquals(1, parse10.countTagOccurrences(MorphologicalTag.NEGATIVE));
+        assertEquals(1, parse10.countTagOccurrences(MorphologicalTag.PASTPARTICIPLE));
+        assertEquals(2, parse11.countTagOccurrences(MorphologicalTag.PASSIVE));
+        assertEquals(2, parse12.countTagOccurrences(MorphologicalTag.ABLE));
     }
 
     @Test
