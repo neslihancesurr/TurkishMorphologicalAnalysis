@@ -26,7 +26,7 @@ public class AnalysisTest {
         //String[] word = {"gitti", "gittiydi", "gidecekti", "gitmiş", "gitmişti", "gidiyordu", "giderdi", "gidermiş", "gidemiyormuş", "gelemeyecekmiş", "alıyorlardı", "gelmişmiş"};
         //String[] word = {"giderim", "gidiyorlar", "gitmezsin", "gitmiyoruz", "gitmekteyiz", "gideriz"};
         //String[] word = {"değil", "değildi", "değilmiş", "değildirler"};
-        String[] word = {"kendi", "kendisi", "kendinin", "kendisinin"};
+        String[] word = {"kendi", "kendisi", "kendinin", "kendisinin", "görse", "versene" };
         for (String s : word) {
             System.out.printf("Analysis for: " + s + "\n");
             FsmParseList fsmParseList = fsm.morphologicalAnalysis(s);

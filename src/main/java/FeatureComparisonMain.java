@@ -83,7 +83,7 @@ public class FeatureComparisonMain {
     }
 
         public static void main(String[] args) throws IOException {
-        String fileName = "pud";
+        String fileName = "gb";
         BufferedWriter wordsRootWriter = new BufferedWriter(new FileWriter("WordsRoots-" + fileName));
         BufferedWriter wordsFeatureWriter = new BufferedWriter(new FileWriter("WordsFeature-" + fileName));
         int trainI = 0, testI = 0, devI = 0;
@@ -105,7 +105,7 @@ public class FeatureComparisonMain {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        AnnotatedCorpus corpus = new AnnotatedCorpus(new File("/Users/oguzkeremyildiz/Dropbox/" + (fileName.charAt(0) + "").toUpperCase(new Locale("en")) + fileName.substring(1) + "/Turkish-Phrase"));
+        AnnotatedCorpus corpus = new AnnotatedCorpus(new File("/Users/neslihancesur/Dropbox/" + (fileName.charAt(0) + "").toUpperCase(new Locale("en")) + fileName.substring(1) + "/Turkish-Phrase"));
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             AnnotatedSentence sentence = (AnnotatedSentence) corpus.getSentence(i);
             System.out.println(sentence.getFileName());
