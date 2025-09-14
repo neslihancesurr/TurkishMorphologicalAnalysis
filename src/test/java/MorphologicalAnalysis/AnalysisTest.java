@@ -26,7 +26,14 @@ public class AnalysisTest {
         //String[] word = {"gitti", "gittiydi", "gidecekti", "gitmiş", "gitmişti", "gidiyordu", "giderdi", "gidermiş", "gidemiyormuş", "gelemeyecekmiş", "alıyorlardı", "gelmişmiş"};
         //String[] word = {"giderim", "gidiyorlar", "gitmezsin", "gitmiyoruz", "gitmekteyiz", "gideriz"};
         //String[] word = {"değil", "değildi", "değilmiş", "değildirler"};
-        String[] word = {"kendi", "kendisi", "kendinin", "kendisinin", "görse", "versene"};
+        //String[] word = {"kendi", "kendisi", "kendinin", "kendisinin", "görse", "versene", "bugün", "bugünden"};
+        //String[] word = {"fakülteyi", "bitirenler", "göreve", "en", "uçtan", "başlıyorlarmış", "kitaplık", "ikidir", "kaçtır", "arabadakiler", "arabalardakiler"};
+        //String[] word = {"annem", "evden", "çıkarak", "yanımıza", "gelecekti"};
+        //String[] word = {"yıllarca","aylarca", "bence", "bizlerce", "yavaşça"};
+        //String[] word = {"ev", "evi", "eve", "evde", "evden", "evin", "evle"};
+        //String[] word = {"gidin", "gidiniz", "yıkanıldı", "gidilindi", "mıymış", "bitirmişmiş"};
+        String[] word = {"yazacaklarım", "yazdıklarım", "yazabileceklerim", "sevdiğim", "duyunca",
+                "bitince", "gelirken", "gelecekken", "duyulan"};
         for (String s : word) {
             System.out.printf("Analysis for: " + s + "\n");
             FsmParseList fsmParseList = fsm.morphologicalAnalysis(s);
@@ -34,5 +41,17 @@ public class AnalysisTest {
                 System.out.println(fsmParseList.getFsmParse(i).transitionList());
             }
         }
+
+        MorphologicalParse word1 = new MorphologicalParse("duy+VERB^DB+VERB+PASS+POS^DB+ADJ+PRESPART");
+        MorphologicalParse word2 = new MorphologicalParse("gel+VERB+POS+AOR^DB+ADV+WHILE");
+        MorphologicalParse word3 = new MorphologicalParse("yaz+VERB+POS^DB+VERB+ABLE^DB+NOUN+FUTPART+A3PL+P1SG+NOM");
+        MorphologicalParse word4 = new MorphologicalParse("sev+VERB+POS^DB+ADJ+PASTPART+P1SG");
+        MorphologicalParse word6 = new MorphologicalParse("duy+VERB+POS^DB+ADV+WHEN");
+
+        System.out.println(word1.getUniversalDependencyFeatures(word1.getUniversalDependencyPos()));
+        System.out.println(word2.getUniversalDependencyFeatures(word1.getUniversalDependencyPos()));
+        System.out.println(word3.getUniversalDependencyFeatures(word1.getUniversalDependencyPos()));
+        System.out.println(word4.getUniversalDependencyFeatures(word1.getUniversalDependencyPos()));
+        System.out.println(word6.getUniversalDependencyFeatures(word1.getUniversalDependencyPos()));
     }
 }
