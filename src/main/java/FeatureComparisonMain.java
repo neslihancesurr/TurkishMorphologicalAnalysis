@@ -11,7 +11,7 @@ import java.util.*;
 
 public class FeatureComparisonMain {
 
-        private static UniversalDependencyTreeBankSentence generateSentence(UniversalDependencyTreeBankSentence sentence) {
+    private static UniversalDependencyTreeBankSentence generateSentence(UniversalDependencyTreeBankSentence sentence) {
         int splitIndex = 0;
         UniversalDependencyTreeBankSentence s = new UniversalDependencyTreeBankSentence();
         for (int i = 0; i < sentence.wordCount(); i++) {
@@ -83,7 +83,7 @@ public class FeatureComparisonMain {
     }
 
         public static void main(String[] args) throws IOException {
-        String fileName = "gb";
+        String fileName = "boun";
         BufferedWriter wordsRootWriter = new BufferedWriter(new FileWriter("WordsRoots-" + fileName));
         BufferedWriter wordsFeatureWriter = new BufferedWriter(new FileWriter("WordsFeature-" + fileName));
         int trainI = 0, testI = 0, devI = 0;
@@ -125,5 +125,5 @@ public class FeatureComparisonMain {
         }
         wordsFeatureWriter.close();
         wordsRootWriter.close();
-    }
+        }
 }
