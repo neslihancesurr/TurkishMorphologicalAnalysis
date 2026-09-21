@@ -313,6 +313,15 @@ public class MorphologicalParse implements Serializable {
     }
 
     /**
+     * The isRootNoun method returns true if the part of speech of root is NOUN, false otherwise.
+     *
+     * @return true if the part of speech of root is NOUN, false otherwise.
+     */
+    public boolean isRootNoun() {
+        return (getRootPos().equals("NOUN"));
+    }
+
+    /**
      * The isVerb method returns true if the part of speech is VERB, false otherwise.
      *
      * @return true if the part of speech is VERB, false otherwise.
@@ -346,6 +355,24 @@ public class MorphologicalParse implements Serializable {
      * @return true if the part of speech is ADV, false otherwise.
      */
     public boolean isAdverb() { return (getPos().equals("ADV"));  }
+
+    /**
+     * The isRootAdjective method returns true if the part of speech of root is ADJ, false otherwise.
+     *
+     * @return true if the part of speech of root is ADJ, false otherwise.
+     */
+    public boolean isRootAdjective() {
+        return (getRootPos().equals("ADJ"));
+    }
+
+    /**
+     * The isRootAdverb method returns true if the part of speech of root is ADV, false otherwise.
+     *
+     * @return true if the part of speech of root is ADV, false otherwise.
+     */
+    public boolean isRootAdverb() {
+        return (getRootPos().equals("ADV"));
+    }
 
     /**
      * The isProperNoun method returns true if the first inflectional group's MorphologicalTag is a PROPERNOUN, false otherwise.
@@ -602,20 +629,21 @@ public class MorphologicalParse implements Serializable {
         if (containsTag(MorphologicalTag.DETERMINER) && lemma.equals("bir")){
             return "Art";
         }
-        if (containsTag(MorphologicalTag.PERSONALPRONOUN)){
+        if (lemma.equals("kendi") || containsTag(MorphologicalTag.PERSONALPRONOUN)){
             return "Prs";
         }
         if (lemma.equals("birbiri") || lemma.equals("birbirleri")){
             return "Rcp";
         }
         if (lemma.equals("her") || lemma.equals("bazı") || lemma.equals("çoğu") || lemma.equals("birçok") || lemma.equals("birçoğu")
-                || lemma.equals("birkaç")|| lemma.equals("birkaçı") || lemma.equals("biri")
-                || lemma.equals("öbür") || lemma.equals("öteki") ||  lemma.equals("hepsi")
+                || lemma.equals("birkaç") || lemma.equals("birkaçı") || lemma.equals("biri")
+                || lemma.equals("öbür") || lemma.equals("öteki") || lemma.equals("hepsi")
                 || lemma.equals("diğeri") || lemma.equals("herkes") || lemma.equals("kimi") || lemma.equals("diğer")
-                 || lemma.equals("topu") || lemma.equals("başkası") || lemma.equals("başka")){
+                || lemma.equals("topu") || lemma.equals("başkası") || lemma.equals("başka") || lemma.equals("tüm") || lemma.equals("hep")
+                || lemma.equals("birtakım")) {
             return "Ind";
         }
-        if (lemma.equals("hiçbiri") || lemma.equals("hiç") || lemma.equals("hiçbir") || lemma.equals("kimse")){
+        if (lemma.equals("hiçbiri") || lemma.equals("hiç") || lemma.equals("hiçbir") || lemma.equals("kimse")) {
             return "Neg";
         }
         if (containsTag(MorphologicalTag.QUESTIONPRONOUN) || containsTag(MorphologicalTag.QUESTION) ||
@@ -623,15 +651,14 @@ public class MorphologicalParse implements Serializable {
                 || lemma.equals("nere") || lemma.equals("nereden") ||
                 (lemma.equals("neden") && getPos().equalsIgnoreCase("ADV")) ||
                 (lemma.equals("ne") && !getPos().equalsIgnoreCase("CONJ")) || lemma.equals("nasıl") ||
-                ((lemma.equals("kaç") || lemma.equals("kaçıncı")) && getPos().equalsIgnoreCase("ADJ"))){
+                ((lemma.equals("kaç") || lemma.equals("kaçıncı")) && getPos().equalsIgnoreCase("ADJ"))) {
             return "Int";
         }
         if (containsTag(MorphologicalTag.DEMONSTRATIVEPRONOUN) || lemma.equals("bu") || lemma.equals("şu")
                 || (lemma.equals("o") && !containsTag(MorphologicalTag.PERSONALPRONOUN))
                 || lemma.equals("bura") || lemma.equals("burada") || lemma.equals("buradan")
                 || lemma.equals("şura") || lemma.equals("şurada")
-                || lemma.equals("ora") || lemma.equals("orada") || lemma.equals("oradan")
-                ){
+                || lemma.equals("ora") || lemma.equals("orada") || lemma.equals("oradan")) {
             return "Dem";
         }
         return null;
@@ -653,7 +680,7 @@ public class MorphologicalParse implements Serializable {
         if (containsTag(MorphologicalTag.DISTRIBUTIVE)){
             return "Dist";
         }
-        if (containsTag(MorphologicalTag.CARDINAL) || containsTag(MorphologicalTag.NUMBER) || lemma.equals("kaç")){
+        if (containsTag(MorphologicalTag.CARDINAL) || containsTag(MorphologicalTag.NUMBER) || (lemma.equals("kaç") && !isRootVerb())){
             return "Card";
         }
         return null;
@@ -752,14 +779,13 @@ public class MorphologicalParse implements Serializable {
         String lemma = root.getName();
         if (lemma.equals("bir") || lemma.equals("bazı") || lemma.equals("birkaç")
                 || lemma.equals("birçok") || lemma.equals("kimi") || lemma.equals("çoğu")
-                || lemma.equals("öbür") || lemma.equals("öteki") || lemma.equals("diğer") || lemma.equals("başka")){
+                || lemma.equals("öbür") || lemma.equals("öteki") || lemma.equals("diğer") || lemma.equals("başka")) {
             return "Ind";
-            }
-            if (lemma.equals("her") || lemma.equals("tüm") || lemma.equals("bu")
-                    || lemma.equals("şu") || lemma.equals("o") || lemma.equals("bütün")){
-                return "Def";
-            }
-
+        }
+        if (lemma.equals("her") || lemma.equals("tüm") || lemma.equals("bu")
+                || lemma.equals("şu") || lemma.equals("o") || lemma.equals("bütün")) {
+            return "Def";
+        }
         return null;
     }
 
@@ -783,9 +809,8 @@ public class MorphologicalParse implements Serializable {
      * @return "Pos" for positive polarity containing tag POS; "Neg" for negative polarity containing tag NEG.
      */
     private String getPolarity(){
-
         if (root.getName().equals("değil") || root.getName().equals("yok") ||
-                containsTag(MorphologicalTag.WITHOUTHAVINGDONESO) || containsTag(MorphologicalTag.WITHOUTBEINGABLETOHAVEDONESO) ){
+                containsTag(MorphologicalTag.WITHOUTHAVINGDONESO) || containsTag(MorphologicalTag.WITHOUTBEINGABLETOHAVEDONESO)) {
             return "Neg";
         }
         if (containsTag(MorphologicalTag.POSITIVE)){
@@ -859,7 +884,7 @@ public class MorphologicalParse implements Serializable {
         if (containsTag(MorphologicalTag.CAUSATIVE) && containsTag(MorphologicalTag.PASSIVE)){
             return "CauPass";
         }
-        if (countTagOccurrences(MorphologicalTag.PASSIVE) == 2){
+        if (countTagOccurrences(MorphologicalTag.PASSIVE) == 2) {
             return "PassPass";
         }
         if (containsTag(MorphologicalTag.PASSIVE)){
@@ -883,21 +908,20 @@ public class MorphologicalParse implements Serializable {
      * for parses containing HASTILY tag; "Dur" for parses containing START, STAY or REPEAT tags.
      */
     private String getAspect(){
-        if (containsTag(MorphologicalTag.FUTURE) && (containsTag(MorphologicalTag.PASTTENSE) || containsTag(MorphologicalTag.PAST))){
+        if (containsTag(MorphologicalTag.FUTURE) && (containsTag(MorphologicalTag.PASTTENSE) || containsTag(MorphologicalTag.PAST))) {
             return "Prosp";
         }
-        if (containsTag(MorphologicalTag.AORIST) || (containsTag(MorphologicalTag.AORIST) && (containsTag(MorphologicalTag.PAST) || containsTag(MorphologicalTag.PASTTENSE)))){
+        if (containsTag(MorphologicalTag.AORIST) && (containsTag(MorphologicalTag.PAST) || containsTag(MorphologicalTag.PASTTENSE))) {
             return "Hab";
         }
         if (containsTag(MorphologicalTag.PROGRESSIVE1) || containsTag(MorphologicalTag.PROGRESSIVE2) ||
                 containsTag(MorphologicalTag.BYDOINGSO) || containsTag(MorphologicalTag.WHILE)) {
             return "Prog";
         }
-        if  (containsTag(MorphologicalTag.FUTURE) ||
-                containsTag(MorphologicalTag.FUTUREPARTICIPLE)){
+        if (containsTag(MorphologicalTag.FUTURE) || containsTag(MorphologicalTag.FUTUREPARTICIPLE)) {
             return "Imp";
         }
-        if (containsTag(MorphologicalTag.PASTTENSE) || containsTag(MorphologicalTag.NARRATIVE) || containsTag(MorphologicalTag.PASTPARTICIPLE)){
+        if (containsTag(MorphologicalTag.PASTTENSE) || containsTag(MorphologicalTag.NARRATIVE) || containsTag(MorphologicalTag.PASTPARTICIPLE)) {
             return "Perf";
         }
         if (containsTag(MorphologicalTag.HASTILY)){
@@ -915,28 +939,28 @@ public class MorphologicalParse implements Serializable {
      * past tenses.
      */
     private String getTense(){
-        if (containsTag(MorphologicalTag.NARRATIVE) && containsTag(MorphologicalTag.FUTURE)){
+        if (containsTag(MorphologicalTag.NARRATIVE) && containsTag(MorphologicalTag.FUTURE)) {
             return "Fut";
         }
-        if ( (containsTag(MorphologicalTag.AORIST) &&  containsTag(MorphologicalTag.NARRATIVE) ) ||
-                (containsTag(MorphologicalTag.PRESENT) && containsTag(MorphologicalTag.NARRATIVE)) ||
-                (containsTag(MorphologicalTag.PROGRESSIVE1) && containsTag(MorphologicalTag.NARRATIVE)) ||
-                (containsTag(MorphologicalTag.PROGRESSIVE2) && containsTag(MorphologicalTag.NARRATIVE)) ||
-                (containsTag(MorphologicalTag.FUTURE) && containsTag(MorphologicalTag.NARRATIVE))
-        ) {
+        if (containsTag(MorphologicalTag.NARRATIVE) &&
+                (containsTag(MorphologicalTag.AORIST) ||
+                        containsTag(MorphologicalTag.PRESENT) ||
+                        containsTag(MorphologicalTag.PROGRESSIVE1) ||
+                        containsTag(MorphologicalTag.PROGRESSIVE2) ||
+                        containsTag(MorphologicalTag.FUTURE))) {
             return "Pres";
         }
-        if ((containsTag(MorphologicalTag.NARRATIVE) && containsTag(MorphologicalTag.PASTTENSE)) || countTagOccurrences(MorphologicalTag.PAST) == 2){
+        if ((containsTag(MorphologicalTag.NARRATIVE) && containsTag(MorphologicalTag.PASTTENSE)) || countTagOccurrences(MorphologicalTag.PAST) == 2) {
             return "Pqp";
         }
-        if (containsTag(MorphologicalTag.PASTTENSE) || containsTag(MorphologicalTag.NARRATIVE) || containsTag(MorphologicalTag.PASTPARTICIPLE)){
+        if (containsTag(MorphologicalTag.PASTTENSE) || containsTag(MorphologicalTag.NARRATIVE) || containsTag(MorphologicalTag.PASTPARTICIPLE)) {
             return "Past";
         }
-        if (containsTag(MorphologicalTag.FUTURE) || containsTag(MorphologicalTag.FUTUREPARTICIPLE)){
+        if (containsTag(MorphologicalTag.FUTURE) || containsTag(MorphologicalTag.FUTUREPARTICIPLE)) {
             return "Fut";
         }
         if (containsTag(MorphologicalTag.PROGRESSIVE1) || containsTag(MorphologicalTag.PROGRESSIVE2) || containsTag(MorphologicalTag.PRESENT)
-                || containsTag(MorphologicalTag.AORIST) || containsTag(MorphologicalTag.PRESENTPARTICIPLE)){
+                || containsTag(MorphologicalTag.AORIST) || containsTag(MorphologicalTag.PRESENTPARTICIPLE)) {
             return "Pres";
         }
         return null;
@@ -956,10 +980,10 @@ public class MorphologicalParse implements Serializable {
      * simple necessitative; "Pot" for simple potential; "Gen" for simple suffix of a general modality.
      */
     private String getMood(){
-        if ((containsTag(MorphologicalTag.COPULA) && containsTag(MorphologicalTag.NECESSITY) && containsTag(MorphologicalTag.ABLE))){
+        if ((containsTag(MorphologicalTag.COPULA) && containsTag(MorphologicalTag.NECESSITY) && containsTag(MorphologicalTag.ABLE))) {
             return "GenNecPot";
         }
-        if (countTagOccurrences(MorphologicalTag.ABLE) == 2){
+        if (countTagOccurrences(MorphologicalTag.ABLE) == 2) {
             if (containsTag(MorphologicalTag.AORIST)) {
                 return "GenPotPot";
             }
@@ -984,7 +1008,7 @@ public class MorphologicalParse implements Serializable {
         if (containsTag(MorphologicalTag.CONDITIONAL) && (containsTag(MorphologicalTag.COPULA) || containsTag(MorphologicalTag.AORIST))){
             return "CndGen";
         }
-        if (containsTag(MorphologicalTag.NECESSITY) && containsTag(MorphologicalTag.COPULA)){
+        if (containsTag(MorphologicalTag.NECESSITY) && containsTag(MorphologicalTag.COPULA)) {
             return "GenNec";
         }
         if (containsTag(MorphologicalTag.IMPERATIVE)){
@@ -1005,15 +1029,14 @@ public class MorphologicalParse implements Serializable {
         if (containsTag(MorphologicalTag.ABLE)){
             return "Pot";
         }
-        if ((containsTag(MorphologicalTag.COPULA))){
+        if ((containsTag(MorphologicalTag.COPULA))) {
             return "Gen";
         }
         if (containsTag(MorphologicalTag.PASTTENSE) || containsTag(MorphologicalTag.NARRATIVE) || containsTag(MorphologicalTag.PROGRESSIVE1) || containsTag(MorphologicalTag.PROGRESSIVE2) ||
                 containsTag(MorphologicalTag.FUTURE) || containsTag(MorphologicalTag.AORIST) || containsTag(MorphologicalTag.FUTUREPARTICIPLE) || containsTag(MorphologicalTag.PASTPARTICIPLE) ||
-                containsTag(MorphologicalTag.PRESENTPARTICIPLE)){
+                containsTag(MorphologicalTag.PRESENTPARTICIPLE)) {
             return "Ind";
         }
-
         return null;
     }
 
@@ -1022,24 +1045,24 @@ public class MorphologicalParse implements Serializable {
      * @return "Part" for participles; "Vnoun" for infinitives; "Conv" for parses contaning tags SINCEDOINGSO,
      * WITHOUTHAVINGDONESO, WITHOUTBEINGABLETOHAVEDONESO, BYDOINGSO, AFTERDOINGSO, INFINITIVE3; "Fin" for others.
      */
-    private String getVerbForm(){
-        if (isRootVerb() && isAdjective()){
+    private String getVerbForm() {
+        if (isRootVerb() && isAdjective()) {
             return "Part";
         }
-        if (isRootVerb() && isNoun()){
+        if (isRootVerb() && isNoun()) {
             return "Vnoun";
         }
-        if (isRootVerb() && isAdverb()){
+        if (isRootVerb() && isAdverb()) {
             return "Conv";
         }
-        if (isRootVerb() && isVerb()){
+        if (isRootVerb() && isVerb()) {
             return "Fin";
         }
         return null;
     }
 
     private String getEvident(){
-        if (containsTag(MorphologicalTag.NARRATIVE) && !containsTag(MorphologicalTag.PAST) && !containsTag(MorphologicalTag.PASTTENSE)){
+        if (containsTag(MorphologicalTag.NARRATIVE)){
             return "Nfh";
         } else {
             if (containsTag(MorphologicalTag.COPULA) || containsTag(MorphologicalTag.ABLE) || containsTag(MorphologicalTag.AORIST) || containsTag(MorphologicalTag.PROGRESSIVE2)
@@ -1062,57 +1085,58 @@ public class MorphologicalParse implements Serializable {
     /**
      * Construct the universal dependency features as an array of strings. Each element represents a single feature.
      * Every feature is given as featureType = featureValue.
+     *
      * @param uPos Universal dependency part of speech tag for the parse.
      * @return An array of universal dependency features for this parse.
      */
-    public ArrayList<String> getUniversalDependencyFeatures(String uPos){
+    public ArrayList<String> getUniversalDependencyFeatures(String uPos) {
         ArrayList<String> featureList = new ArrayList<>();
         String lemma = root.getName();
-
         //prs,rcp,int,dem, ind, neg, art
         String pronType = getPronType();
-        if (pronType != null){
+        if (pronType != null && !uPos.equalsIgnoreCase("ADJ") && !uPos.equalsIgnoreCase("ADV") && !uPos.equalsIgnoreCase("X") && !uPos.equalsIgnoreCase("NOUN") && !uPos.equalsIgnoreCase("PROPN") && !uPos.equalsIgnoreCase("ADP") && !uPos.equalsIgnoreCase("VERB")) {
             featureList.add("PronType=" + pronType);
         }
         //card,ord,dist
         String numType = getNumType();
-        if (numType != null){
+        if (numType != null) {
             featureList.add("NumType=" + numType);
         }
         //kendi,kendisi,kendimiz
         String reflex = getReflex();
-        if (reflex != null){
+        if (reflex != null && !uPos.equalsIgnoreCase("X")) {
             featureList.add("Reflex=" + reflex);
         }
         //daha:cmp,en:sup
         String degree = getDegree();
-        if (degree != null && !uPos.equalsIgnoreCase("NOUN")){
+        if (degree != null && !uPos.equalsIgnoreCase("ADJ")) {
             featureList.add("Degree=" + degree);
         }
 
-        // Specifically Noun features (except articles)
-        if (isNoun() || getPos().equalsIgnoreCase("PRON")|| containsTag(MorphologicalTag.PRONOUN) || isRootVerb() || isVerb() || lemma.equals("mi")) {
+        // Specifically for common Noun and Verb features (except articles)
+        if (isNoun() || isVerb() || lemma.equals("mi") || getPos().equalsIgnoreCase("PRON") || containsTag(MorphologicalTag.PRONOUN) || isRootVerb()) {
             String number = getNumber();
-            if (number != null){
+            if (number != null) {
                 featureList.add("Number=" + number);
             }
             String possessiveNumber = getPossessiveNumber();
-            if (possessiveNumber != null){
+            if (possessiveNumber != null && !uPos.equalsIgnoreCase("X")) {
                 featureList.add("Number[psor]=" + possessiveNumber);
             }
             String possessivePerson = getPossessivePerson();
-            if (possessivePerson != null && !uPos.equalsIgnoreCase("PROPN")){
+            if (possessivePerson != null && !uPos.equalsIgnoreCase("PROPN") && !uPos.equalsIgnoreCase("X")) {
                 featureList.add("Person[psor]=" + possessivePerson);
             }
         }
 
+        //Only nominal features
         if (isNoun() || getRootPos().equalsIgnoreCase("PRON") || containsTag(MorphologicalTag.PRONOUN)){ // isVerb -> isRootVerb()
             String case_ = getCase();
-            if (case_ != null){
+            if (case_ != null && !uPos.equalsIgnoreCase("X")){
                 featureList.add("Case=" + case_);
             }
             String person = getPerson();
-            if (getPos().equalsIgnoreCase("PRON") || containsTag(MorphologicalTag.PERSONALPRONOUN)){
+            if ((getPos().equalsIgnoreCase("PRON") || containsTag(MorphologicalTag.PERSONALPRONOUN)) && !uPos.equalsIgnoreCase("X")){
                 if (person != null){
                     featureList.add("Person=" + person);
                 }
@@ -1120,50 +1144,51 @@ public class MorphologicalParse implements Serializable {
         }
 
         // Determiner features
-        if (containsTag(MorphologicalTag.DETERMINER)){
+        if (containsTag(MorphologicalTag.DETERMINER)) {
             String definite = getDefinite();
-            if (definite != null){
+            if (definite != null) {
                 featureList.add("Definite=" + definite);
             }
         }
 
         // Verbal features: if root is verb, the word is -mI (can add değil and some others)
-        if (isRootVerb() || isVerb() || lemma.equals("mi") || lemma.equals("değil") || lemma.equals("yok") || lemma.equals("var")){ // isVerb() -> isRootVerb
+        if (isRootVerb() || isVerb() || lemma.equals("mi") || lemma.equals("değil") || lemma.equals("yok") || lemma.equals("var")){
             String person = getPerson();
-            if (person != null && !uPos.equalsIgnoreCase("PROPN")){
+            if (person != null && !uPos.equalsIgnoreCase("PROPN") && !uPos.equalsIgnoreCase("X")){
                 featureList.add("Person=" + person);
             }
-
             String polarity = getPolarity();
             if (polarity != null){
                 featureList.add("Polarity=" + polarity);
             }
             String voice = getVoice();
-            if (voice != null && !root.getName().equals("mi")){
+            if (voice != null && !root.getName().equals("mi") && !uPos.equalsIgnoreCase("NOUN") && !uPos.equalsIgnoreCase("ADJ")){
                 featureList.add("Voice=" + voice);
             }
             String aspect = getAspect();
-            if (aspect != null && !uPos.equalsIgnoreCase("PROPN")){
+            if (aspect != null && !uPos.equalsIgnoreCase("PROPN") && !uPos.equalsIgnoreCase("X")) {
                 featureList.add("Aspect=" + aspect);
             }
             String tense = getTense();
-            if (tense != null && !uPos.equalsIgnoreCase("PROPN")){
+            if (tense != null && !uPos.equalsIgnoreCase("PROPN") && !uPos.equalsIgnoreCase("NOUN") && !uPos.equalsIgnoreCase("ADJ") && !uPos.equalsIgnoreCase("X") && !uPos.equalsIgnoreCase("NUM")){
                 featureList.add("Tense=" + tense);
-            }
-            String mood = getMood();
-            if (mood != null && !uPos.equalsIgnoreCase("PROPN")){
-                featureList.add("Mood=" + mood);
             }
             String verbForm = getVerbForm();
             if (verbForm != null && !uPos.equalsIgnoreCase("PROPN")){
                 featureList.add("VerbForm=" + verbForm);
             }
+            String mood = getMood();
+            if (mood != null && !uPos.equalsIgnoreCase("PROPN")) {
+                if (verbForm != null && verbForm.equalsIgnoreCase("FIN")) {
+                    featureList.add("Mood=" + mood);
+                }
+            }
             String evident = getEvident();
-            if (evident != null){
+            if (evident != null && !uPos.equalsIgnoreCase("NOUN") && !uPos.equalsIgnoreCase("ADJ") && !uPos.equalsIgnoreCase("X") && !uPos.equalsIgnoreCase("NUM") && !uPos.equalsIgnoreCase("PROPN")) {
                 featureList.add("Evident=" + evident);
             }
             String polite = getPolite();
-            if (polite != null){
+            if (polite != null && !uPos.equalsIgnoreCase("ADJ")){
                 featureList.add("Polite=" + polite);
             }
         }
@@ -1174,6 +1199,7 @@ public class MorphologicalParse implements Serializable {
 
     /**
      * Returns the universal dependency part of speech for this parse.
+     *
      * @return "AUX" for word 'değil; "PROPN" for proper nouns; "NOUN for nouns; "ADJ" for adjectives; "ADV" for
      * adverbs; "INTJ" for interjections; "VERB" for verbs; "PUNCT" for punctuation symbols; "DET" for determiners;
      * "NUM" for numerals; "PRON" for pronouns; "ADP" for post participles; "SCONJ" or "CCONJ" for conjunctions.
@@ -1186,19 +1212,19 @@ public class MorphologicalParse implements Serializable {
         if (isProperNoun()){
             return "PROPN";
         }
-        if (isNoun()){
+        if (isRootNoun()){
             return "NOUN";
         }
-        if (isAdjective()){
+        if (isRootAdjective()){
             return "ADJ";
         }
-        if (getPos().equals("ADV")){
+        if (isRootAdverb()){
             return "ADV";
         }
         if (containsTag(MorphologicalTag.INTERJECTION)){
             return "INTJ";
         }
-        if (isVerb()){
+        if (isRootVerb()){
             return "VERB";
         }
         if (isPunctuation() || isHashTag()){
