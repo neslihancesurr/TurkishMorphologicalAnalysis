@@ -105,7 +105,8 @@ public class FeatureComparisonMain {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        AnnotatedCorpus corpus = new AnnotatedCorpus(new File("/Users/neslihancesur/Dropbox/" + (fileName.charAt(0) + "").toUpperCase(new Locale("en")) + fileName.substring(1) + "/Turkish-Phrase"));
+        AnnotatedCorpus corpus = new AnnotatedCorpus(new File(System.getProperty("user.home") + "/Dropbox/" + fileName + "/Turkish-Phrase"));
+
         for (int i = 0; i < corpus.sentenceCount(); i++) {
             AnnotatedSentence sentence = (AnnotatedSentence) corpus.getSentence(i);
             System.out.println(sentence.getFileName());
